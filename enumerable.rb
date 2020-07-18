@@ -33,6 +33,8 @@ module Enumerable
   def my_select
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
+    return enum_for unless block_given?
+
     filtered_ary = []
     x = 0
     while x < ary.length
