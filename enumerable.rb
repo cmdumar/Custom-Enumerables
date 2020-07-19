@@ -221,9 +221,8 @@ module Enumerable
 
     arr = []
     i = 0
-    if !proc_arg.nil? && block_given?
-      ary.my_each { |arr_item| arr.push(proc_arg(arr_item)) }
-
+    if !proc_arg.nil?
+      ary.my_each { |arr_item| arr.push(proc_arg.call(arr_item)) }
     else
       while i < ary.length
         arr.push(yield(ary[i]))
