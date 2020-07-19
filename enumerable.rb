@@ -155,20 +155,20 @@ module Enumerable
     i = 0
     if arg.nil? && !block_given?
       while i < ary.length
-        return true unless ary[i]
+        return false if ary[i]
 
         i += 1
       end
     elsif arg.nil? && block_given?
       while i < ary.length
-        return false if yield(ary[i])
+        return false unless !yield(ary[i])
 
         i += 1
       end
     elsif !arg.nil? && !block_given?
       if arg.is_a?(Class) && !arg.is_a?(Regexp)
         while i < ary.length
-          return false if ary[i].is_a?(arg)
+          return false unless !ary[i].is_a?(arg)
 
           i += 1
         end
@@ -176,13 +176,13 @@ module Enumerable
         while i < ary.length
           str = ary[i]
           str = str.is_a?(String) ? str : str.to_s
-          return false if arg.match?(str)
+          return false unless !arg.match?(str)
 
           i += 1
         end
       elsif !arg.is_a?(Class)
         while i < ary.length
-          return false unless !arg == ary[i]
+          return false unless arg != ary[i]
 
           i += 1
         end
