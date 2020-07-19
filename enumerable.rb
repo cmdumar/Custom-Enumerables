@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Our enumerable methods
 
 # rubocop:disable Metrics/ModuleLength
@@ -7,7 +5,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/BlockNesting
-# rubocop:disable Metrics/AbcSize
+
 module Enumerable
   def my_each
     ary = self
@@ -282,4 +280,3 @@ end
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/BlockNesting
-# rubocop:enable Metrics/AbcSize
