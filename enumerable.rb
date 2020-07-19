@@ -195,7 +195,6 @@ module Enumerable
   def my_count(arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
-
     return ary.length if arg.nil? && !block_given?
 
     counter = 0
@@ -229,7 +228,6 @@ module Enumerable
         i += 1
       end
     end
-
     arr
   end
 
