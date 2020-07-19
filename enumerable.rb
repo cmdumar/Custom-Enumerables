@@ -1,30 +1,43 @@
-# rubocop:disable all
+# frozen_string_literal: true
+
 # Our enumerable methods
+
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/BlockNesting
+# rubocop:disable Metrics/AbcSize
 module Enumerable
   def my_each
     ary = self
-    ary = ary.is_a?(Array) ? ary : ary.to_a
+    ar = ary.is_a?(Array) ? ary : ary.to_a
     return enum_for unless block_given?
 
     i = 0
-    while i < ary.length
-      yield(ary[i])
+    while i < ar.length
+      yield(ar[i])
       i += 1
     end
-    ary
+
+    return ary unless ary.is_a?(Array)
+
+    ar
   end
 
   def my_each_with_index
     ary = self
-    ary = ary.is_a?(Array) ? ary : ary.to_a
+    ar = ary.is_a?(Array) ? ary : ary.to_a
     return enum_for unless block_given?
 
     i = 0
-    while i < ary.length
-      yield(ary[i], i)
+    while i < ar.length
+      yield(ar[i], i)
       i += 1
     end
-    ary
+    return ary unless ary.is_a?(Array)
+
+    ar
   end
 
   def my_select
@@ -150,14 +163,14 @@ module Enumerable
       end
     elsif arg.nil? && block_given?
       while i < ary.length
-        return false unless !yield(ary[i])
+        return false if yield(ary[i])
 
         i += 1
       end
     elsif !arg.nil? && !block_given?
       if arg.is_a?(Class) && !arg.is_a?(Regexp)
         while i < ary.length
-          return false unless !ary[i].is_a?(arg)
+          return false if ary[i].is_a?(arg)
 
           i += 1
         end
@@ -165,7 +178,7 @@ module Enumerable
         while i < ary.length
           str = ary[i]
           str = str.is_a?(String) ? str : str.to_s
-          return false unless !arg.match?(str)
+          return false if arg.match?(str)
 
           i += 1
         end
@@ -264,4 +277,9 @@ end
 def multiply_els(arr)
   arr.my_inject(:*)
 end
-# rubocop:enable all
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/AbcSize
