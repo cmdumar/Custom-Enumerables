@@ -161,14 +161,14 @@ module Enumerable
       end
     elsif arg.nil? && block_given?
       while i < ary.length
-        return false unless !yield(ary[i])
+        return false if yield(ary[i])
 
         i += 1
       end
     elsif !arg.nil? && !block_given?
       if arg.is_a?(Class) && !arg.is_a?(Regexp)
         while i < ary.length
-          return false unless !ary[i].is_a?(arg)
+          return false if ary[i].is_a?(arg)
 
           i += 1
         end
@@ -176,7 +176,7 @@ module Enumerable
         while i < ary.length
           str = ary[i]
           str = str.is_a?(String) ? str : str.to_s
-          return false unless !arg.match?(str)
+          return false if arg.match?(str)
 
           i += 1
         end
@@ -221,13 +221,14 @@ module Enumerable
 
     arr = []
     i = 0
-    if proc_arg.nil?
+    if !proc_arg.nil? && block_given?
+      ary.my_each { |arr_item| arr.push(proc_arg(arr_item)) }
+
+    else
       while i < ary.length
         arr.push(yield(ary[i]))
         i += 1
       end
-    else
-      ary.my_each { |arr_item| arr.push(proc_arg(arr_item)) }
     end
 
     arr
