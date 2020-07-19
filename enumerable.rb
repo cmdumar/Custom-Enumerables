@@ -44,23 +44,53 @@ module Enumerable
     filtered_ary
   end
 
-  def my_all?
+  def my_all?(arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
     value = true
     return true if ary.empty?
 
     i = 0
-    while i < ary.length
-      return false unless yield(ary[i])
+    if arg.nil? && !block_given?
+      while i < ary.length
+        return false unless ary[i]
 
-      i += 1
+        i += 1
+      end
+    elsif arg.nil? && block_given?
+      while i < ary.length
+        return false unless yield(ary[i])
+
+        i += 1
+      end
+    elsif !arg.nil? && !block_given?
+      if arg.is_a?(Class) && !arg.is_a?(Regexp)
+        while i < ary.length
+          return false unless ary[i].is_a?(arg)
+
+          i += 1
+        end
+      elsif arg.is_a?(Regexp)
+        while i < ary.length
+          str = ary[i]
+          str = str.is_a?(String) ? str : str.to_s
+          return false unless arg.match?(str)
+
+          i += 1
+        end
+      elsif !arg.is_a?(Class)
+        while i < ary.length
+          return false unless arg == ary[i]
+
+          i += 1
+        end
+      end
     end
 
     value
   end
 
-  def my_any?
+  def my_any?(arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
 
@@ -68,15 +98,46 @@ module Enumerable
     return true if ary.empty?
 
     i = 0
-    while i < ary.length
-      return true if yield(ary[i]) == true
+    if arg.nil? && !block_given?
+      while i < ary.length
+        return true if ary[i]
 
-      i += 1
+        i += 1
+      end
+    elsif arg.nil? && block_given?
+      while i < ary.length
+        return true if yield(ary[i])
+
+        i += 1
+      end
+    elsif !arg.nil? && !block_given?
+      if arg.is_a?(Class) && !arg.is_a?(Regexp)
+        while i < ary.length
+          return true if ary[i].is_a?(arg)
+
+          i += 1
+        end
+      elsif arg.is_a?(Regexp)
+        while i < ary.length
+          str = ary[i]
+          str = str.is_a?(String) ? str : str.to_s
+          return true if arg.match?(str)
+
+          i += 1
+        end
+      elsif !arg.is_a?(Class)
+        while i < ary.length
+          return true if arg == ary[i]
+
+          i += 1
+        end
+      end
     end
+
     value
   end
 
-  def my_none?
+  def my_none?(arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
 
@@ -84,11 +145,42 @@ module Enumerable
     return true if ary.empty?
 
     i = 0
-    while i < ary.length
-      return false if yield(ary[i]) == true
+    if arg.nil? && !block_given?
+      while i < ary.length
+        return true unless ary[i]
 
-      i += 1
+        i += 1
+      end
+    elsif arg.nil? && block_given?
+      while i < ary.length
+        return false unless !yield(ary[i])
+
+        i += 1
+      end
+    elsif !arg.nil? && !block_given?
+      if arg.is_a?(Class) && !arg.is_a?(Regexp)
+        while i < ary.length
+          return false unless !ary[i].is_a?(arg)
+
+          i += 1
+        end
+      elsif arg.is_a?(Regexp)
+        while i < ary.length
+          str = ary[i]
+          str = str.is_a?(String) ? str : str.to_s
+          return false unless !arg.match?(str)
+
+          i += 1
+        end
+      elsif !arg.is_a?(Class)
+        while i < ary.length
+          return false unless !arg == ary[i]
+
+          i += 1
+        end
+      end
     end
+
     value
   end
 
@@ -114,29 +206,14 @@ module Enumerable
     counter
   end
 
-  def my_map
+  def my_map(proc_arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
     return enum_for unless block_given?
 
+    arr = []
     i = 0
-    arr = []
-    while i < ary.length
-      arr.push(yield(ary[i]))
-      i += 1
-    end
-    arr
-  end
-
-  def my_map_proc_block(proc_arg)
-    ary = self
-    ary = ary.is_a?(Array) ? ary : ary.to_a
-
-    return enum_for unless block_given?
-
-    arr = []
     if proc_arg.nil?
-      i = 0
       while i < ary.length
         arr.push(yield(ary[i]))
         i += 1
@@ -144,6 +221,7 @@ module Enumerable
     else
       ary.my_each { |arr_item| arr.push(proc_arg(arr_item)) }
     end
+
     arr
   end
 
