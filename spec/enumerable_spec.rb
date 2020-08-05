@@ -80,10 +80,40 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on a numbers array' do
         expect(numbers.my_each_with_index(&block_args)).to eql(numbers.each_with_index(&block_args))
       end
+    end
+  end
 
-      # it 'when applied on a words array' do
-      #   expect(words.my_each_with_index(&block_args)).to eql(words.each_with_index(&block_args))
-      # end
+  describe '#my_select' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_select.inspect).to eql(array.select.inspect)
+      end
+
+      it 'when applied on a range' do
+        expect(range.select.inspect).to eql(range.select.inspect)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.select.inspect).to eql(hash.select.inspect)
+      end
+    end
+
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_select(&block_num)).to eql(array.select(&block_num))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_select(&block_num)).to eql(range.select(&block_num))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_select(&block)).to eql(hash.select(&block))
+      end
+
+      it 'when applied on a numbers array' do
+        expect(numbers.my_select(&block_num)).to eql(numbers.select(&block_num))
+      end
     end
   end
 end

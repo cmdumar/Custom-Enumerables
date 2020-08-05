@@ -40,15 +40,17 @@ module Enumerable
 
   def my_select
     ary = self
-    ary = ary.is_a?(Array) ? ary : ary.to_a
-    return enum_for unless block_given?
+    ar = ary.is_a?(Array) ? ary : ary.to_a
+    return enum_for(:select) unless block_given?
 
     filtered_ary = []
     x = 0
-    while x < ary.length
-      filtered_ary << ary[x] if yield(ary[x]) == true
+    while x < ar.length
+      filtered_ary << ar[x] if yield(ar[x]) == true
       x += 1
     end
+
+    return ary if filtered_ary.empty?
     filtered_ary
   end
 
