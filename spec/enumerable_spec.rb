@@ -90,11 +90,11 @@ describe 'Custom Enumerable Methods' do
       end
 
       it 'when applied on a range' do
-        expect(range.select.inspect).to eql(range.select.inspect)
+        expect(range.my_select.inspect).to eql(range.select.inspect)
       end
 
       it 'when applied on an hash' do
-        expect(hash.select.inspect).to eql(hash.select.inspect)
+        expect(hash.my_select.inspect).to eql(hash.select.inspect)
       end
     end
 
