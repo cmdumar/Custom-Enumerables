@@ -7,11 +7,12 @@ describe 'Custom Enumerable Methods' do
   let(:hash) { { a: 'A', b: 'B', c: 'C' } }
   let(:numbers) { [1, 2.332, 66, 90.7] }
   let(:words) { %w[cat dog lion dolphin] }
-  let(:block) { proc { |i| i } }
-  let(:block_num) { proc { |i| i < 5 } }
+  let(:block) { proc { |el| el } }
+  let(:block_num) { proc { |el| el < 5 } }
+  let(:block_args) { proc { |el, index| el + index } }
 
   describe '#my_each' do
-    context 'No Block Given: ' do
+    context 'No Block Given:' do
       it 'when applied on an array' do
         expect(array.my_each.inspect).to eql(array.each.inspect)
       end
@@ -25,7 +26,7 @@ describe 'Custom Enumerable Methods' do
       end
     end
  
-    context 'Block Given: ' do
+    context 'Block Given:' do
       it 'when applied on an array' do
         expect(array.my_each(&block_num)).to eql(array.each(&block_num))
       end
@@ -45,6 +46,44 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on a words array' do
         expect(words.my_each(&block)).to eql(words.each(&block))
       end
+    end
+  end
+
+  describe '#my_each_with_index' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_each_with_index.inspect).to eql(array.each_with_index.inspect)
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_each_with_index.inspect).to eql(range.each_with_index.inspect)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_each_with_index.inspect).to eql(hash.each_with_index.inspect)
+      end
+    end
+ 
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_each_with_index(&block_args)).to eql(array.each_with_index(&block_args))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_each_with_index(&block_args)).to eql(range.each_with_index(&block_args))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_each_with_index(&block)).to eql(hash.each_with_index(&block))
+      end
+
+      it 'when applied on a numbers array' do
+        expect(numbers.my_each_with_index(&block_args)).to eql(numbers.each_with_index(&block_args))
+      end
+
+      # it 'when applied on a words array' do
+      #   expect(words.my_each_with_index(&block_args)).to eql(words.each_with_index(&block_args))
+      # end
     end
   end
 end

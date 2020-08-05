@@ -26,7 +26,7 @@ module Enumerable
   def my_each_with_index
     ary = self
     ar = ary.is_a?(Array) ? ary : ary.to_a
-    return enum_for unless block_given?
+    return enum_for(:each_with_index) unless block_given?
 
     i = 0
     while i < ar.length
