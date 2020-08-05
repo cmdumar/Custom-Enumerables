@@ -49,8 +49,8 @@ module Enumerable
       filtered_ary << ar[x] if yield(ar[x]) == true
       x += 1
     end
-
     return ary if filtered_ary.empty?
+
     filtered_ary
   end
 
@@ -233,51 +233,13 @@ module Enumerable
     arr
   end
 
-  # def my_inject(arg = nil, sym = nil)
-  #   ary = self
-  #   ary = ary.is_a?(Array) ? ary : ary.to_a
-
-  #   acc = ary[0]
-  #   if arg.nil? && sym.nil?
-  #     i = 1
-  #     while i < ary.length
-  #       acc = yield(acc, ary[i])
-  #       i += 1
-  #     end
-  #   elsif !arg.nil? && sym.nil?
-  #     if arg.is_a?(Integer)
-  #       acc = arg
-  #       i = 0
-  #       while i < ary.length
-  #         acc = yield(acc, ary[i])
-  #         i += 1
-  #       end
-  #     elsif arg.is_a?(String) || arg.is_a?(Symbol)
-  #       acc = ary[0]
-  #       i = 1
-  #       while i < ary.length
-  #         acc = acc.send(arg, ary[i])
-  #         i += 1
-  #       end
-  #     end
-  #   elsif !arg.nil? && !sym.nil?
-  #     acc = arg
-  #     i = 0
-  #     while i < ary.length
-  #       acc = acc.send(sym, ary[i])
-  #       i += 1
-  #     end
-  #   end
-  #   acc
-  # end
-
   def my_inject(arg = 0, sym = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
 
     acc = ary[0]
     i = 1
-    if block_given? 
+    if block_given?
       if arg.nil?
         while i < ary.length
           acc = yield(acc, ary[i])
@@ -297,7 +259,7 @@ module Enumerable
       end
     else
       if arg && sym.nil?
-        if arg.is_a(Numeric)
+        if arg.is_a?(Numeric)
           acc = arg
           i = 0
           while i < ary.length

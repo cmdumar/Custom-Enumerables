@@ -26,7 +26,7 @@ describe 'Custom Enumerable Methods' do
         expect(hash.my_each.inspect).to eql(hash.each.inspect)
       end
     end
- 
+
     context 'Block Given:' do
       it 'when applied on an array' do
         expect(array.my_each(&block_num)).to eql(array.each(&block_num))
@@ -64,7 +64,7 @@ describe 'Custom Enumerable Methods' do
         expect(hash.my_each_with_index.inspect).to eql(hash.each_with_index.inspect)
       end
     end
- 
+
     context 'Block Given:' do
       it 'when applied on an array' do
         expect(array.my_each_with_index(&block_args)).to eql(array.each_with_index(&block_args))
@@ -219,15 +219,12 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an array' do
         expect(array.my_none?).to eql(array.none?)
       end
-
       it 'when applied on a range' do
         expect(range.my_none?).to eql(range.none?)
       end
-
       it 'when applied on an hash' do
         expect(hash.my_none?).to eql(hash.none?)
       end
-
       it 'when no argument is passed' do
         expect(array.my_none?).to eql(array.none?)
       end
@@ -237,11 +234,9 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an array' do
         expect(array.my_none?(&block_num)).to eql(array.none?(&block_num))
       end
-
       it 'when applied on a range' do
         expect(range.my_none?(&block_num)).to eql(range.none?(&block_num))
       end
-
       it 'when applied on an hash' do
         expect(hash.my_none?(&block)).to eql(hash.none?(&block))
       end
@@ -251,11 +246,9 @@ describe 'Custom Enumerable Methods' do
       it 'when a class is passed' do
         expect(array.my_none?(Numeric)).to eql(array.none?(Numeric))
       end
-
       it 'when a Regex is passed' do
         expect(words.my_none?(/o/)).to eql(words.none?(/o/))
       end
-
       it 'when a pattern is passed' do
         expect(array.my_none?(1)).to eql(array.none?(1))
       end
@@ -323,7 +316,7 @@ describe 'Custom Enumerable Methods' do
   end
 
   describe '#my_inject' do
-    context 'No Block & Argument Given:' do
+    context 'No Block & One or Two Argument Given:' do
       it 'when a symbol is passed' do
         expect(array.my_inject(:+)).to eql(array.inject(:+))
       end
@@ -333,24 +326,10 @@ describe 'Custom Enumerable Methods' do
       end
     end
 
-    context 'Block & Argument Given:' do
+    context 'Block & One Argument Given:' do
       it 'when a number and block is passed' do
-        expect(array.my_inject(2))
+        expect(array.my_inject(2, &block_args)).to eql(array.inject(2, &block_args))
       end
     end
-
-    # context 'Block Given:' do
-    #   it 'when applied on an array' do
-    #     expect(array.my_inject(&block_num)).to eql(array.inject(&block_num))
-    #   end
-
-    #   it 'when applied on a range' do
-    #     expect(range.my_inject(&block_num)).to eql(range.inject(&block_num))
-    #   end
-
-    #   it 'when applied on an hash' do
-    #     expect(hash.my_inject(&block)).to eql(hash.inject(&block))
-    #   end
-    # end
   end
 end
