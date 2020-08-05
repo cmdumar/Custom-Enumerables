@@ -6,7 +6,7 @@ describe 'Custom Enumerable Methods' do
   let(:range) { Range.new(0, 9) }
   let(:hash) { { a: 'A', b: 'B', c: 'C' } }
   let(:numbers) { [1, 2.332, 66, 90.7] }
-  let(:words) { %w[cat dog lion dolphin] }
+  let(:words) { %w[cato dog lion dolphin] }
   let(:block) { proc { |el| el } }
   let(:block_num) { proc { |el| el < 5 } }
   let(:block_args) { proc { |el, index| el + index } }
@@ -130,6 +130,10 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an hash' do
         expect(hash.my_all?).to eql(hash.all?)
       end
+
+      it 'when no argument is passed' do
+        expect(array.my_all?).to eql(array.all?)
+      end
     end
 
     context 'Block Given:' do
@@ -143,6 +147,20 @@ describe 'Custom Enumerable Methods' do
 
       it 'when applied on an hash' do
         expect(hash.my_all?(&block)).to eql(hash.all?(&block))
+      end
+    end
+
+    context 'Argument Given:' do
+      it 'when a class is passed' do
+        expect(array.my_all?(Numeric)).to eql(array.all?(Numeric))
+      end
+
+      it 'when a Regex is passed' do
+        expect(words.my_all?(/o/)).to eql(words.all?(/o/))
+      end
+
+      it 'when a pattern is passed' do
+        expect(array.my_all?(1)).to eql(array.all?(1))
       end
     end
   end
