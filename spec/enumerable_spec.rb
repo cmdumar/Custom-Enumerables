@@ -10,6 +10,7 @@ describe 'Custom Enumerable Methods' do
   let(:block) { proc { |el| el } }
   let(:block_num) { proc { |el| el < 5 } }
   let(:block_args) { proc { |el, index| el + index } }
+  # let(:block_acc) { proc { |sum, el| sum + el } }
 
   describe '#my_each' do
     context 'No Block Given:' do
@@ -259,5 +260,97 @@ describe 'Custom Enumerable Methods' do
         expect(array.my_none?(1)).to eql(array.none?(1))
       end
     end
+  end
+
+  describe '#my_count' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_count).to eql(array.count)
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_count).to eql(range.count)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_count).to eql(hash.count)
+      end
+    end
+
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_count(&block_num)).to eql(array.count(&block_num))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_count(&block_num)).to eql(range.count(&block_num))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_count(&block)).to eql(hash.count(&block))
+      end
+    end
+  end
+
+  describe '#my_map' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_map.inspect).to eql(array.map.inspect)
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_map.inspect).to eql(range.map.inspect)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_map.inspect).to eql(hash.map.inspect)
+      end
+    end
+
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_map(&block_num)).to eql(array.map(&block_num))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_map(&block_num)).to eql(range.map(&block_num))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_map(&block)).to eql(hash.map(&block))
+      end
+    end
+  end
+
+  describe '#my_inject' do
+    context 'No Block & Argument Given:' do
+      it 'when a symbol is passed' do
+        expect(array.my_inject(:+)).to eql(array.inject(:+))
+      end
+
+      it 'when a number and symbol is passed' do
+        expect(range.my_inject(2, :*)).to eql(range.inject(2, :*))
+      end
+    end
+
+    context 'Block & Argument Given:' do
+      it 'when a number and block is passed' do
+        expect(array.my_inject(2))
+      end
+    end
+
+    # context 'Block Given:' do
+    #   it 'when applied on an array' do
+    #     expect(array.my_inject(&block_num)).to eql(array.inject(&block_num))
+    #   end
+
+    #   it 'when applied on a range' do
+    #     expect(range.my_inject(&block_num)).to eql(range.inject(&block_num))
+    #   end
+
+    #   it 'when applied on an hash' do
+    #     expect(hash.my_inject(&block)).to eql(hash.inject(&block))
+    #   end
+    # end
   end
 end
