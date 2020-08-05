@@ -16,6 +16,10 @@
 
 * Ruby
 
+## Testing
+
+* RSpec
+
 ## Live Demo
 
 * [Live Link (Repl)](https://repl.it/@mohammadumar28/enumerables#main.rb)
