@@ -164,4 +164,52 @@ describe 'Custom Enumerable Methods' do
       end
     end
   end
+
+  describe '#my_any?' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_any?).to eql(array.any?)
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_any?).to eql(range.any?)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_any?).to eql(hash.any?)
+      end
+
+      it 'when no argument is passed' do
+        expect(array.my_any?).to eql(array.any?)
+      end
+    end
+
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_any?(&block_num)).to eql(array.any?(&block_num))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_any?(&block_num)).to eql(range.any?(&block_num))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_any?(&block)).to eql(hash.any?(&block))
+      end
+    end
+
+    context 'Argument Given:' do
+      it 'when a class is passed' do
+        expect(array.my_any?(Numeric)).to eql(array.any?(Numeric))
+      end
+
+      it 'when a Regex is passed' do
+        expect(words.my_any?(/o/)).to eql(words.any?(/o/))
+      end
+
+      it 'when a pattern is passed' do
+        expect(array.my_any?(1)).to eql(array.any?(1))
+      end
+    end
+  end
 end
