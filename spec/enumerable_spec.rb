@@ -116,4 +116,34 @@ describe 'Custom Enumerable Methods' do
       end
     end
   end
+
+  describe '#my_all?' do
+    context 'No Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_all?).to eql(array.all?)
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_all?).to eql(range.all?)
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_all?).to eql(hash.all?)
+      end
+    end
+
+    context 'Block Given:' do
+      it 'when applied on an array' do
+        expect(array.my_all?(&block_num)).to eql(array.all?(&block_num))
+      end
+
+      it 'when applied on a range' do
+        expect(range.my_all?(&block_num)).to eql(range.all?(&block_num))
+      end
+
+      it 'when applied on an hash' do
+        expect(hash.my_all?(&block)).to eql(hash.all?(&block))
+      end
+    end
+  end
 end
