@@ -10,7 +10,6 @@ describe 'Custom Enumerable Methods' do
   let(:block) { proc { |el| el } }
   let(:block_num) { proc { |el| el < 5 } }
   let(:block_args) { proc { |el, index| el + index } }
-  # let(:block_acc) { proc { |sum, el| sum + el } }
 
   describe '#my_each' do
     context 'No Block Given:' do
