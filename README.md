@@ -16,6 +16,19 @@
 
 * Ruby
 
+## Prerequisites
+
+* Ruby (v2.7)
+* RSpec
+
+## Instructions to Test the Project
+
+* Clone the repository
+* cd in to the cloned directory
+* Switch to testing branch by `git checkout testing-with-RSpec`
+* Run `bundle install`
+* Run `rspec`
+
 ## Live Demo
 
 * [Live Link (Repl)](https://repl.it/@mohammadumar28/enumerables#main.rb)
