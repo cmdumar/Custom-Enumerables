@@ -26,7 +26,7 @@ module Enumerable
   def my_each_with_index
     ary = self
     ar = ary.is_a?(Array) ? ary : ary.to_a
-    return enum_for unless block_given?
+    return enum_for(:each_with_index) unless block_given?
 
     i = 0
     while i < ar.length
@@ -40,15 +40,17 @@ module Enumerable
 
   def my_select
     ary = self
-    ary = ary.is_a?(Array) ? ary : ary.to_a
-    return enum_for unless block_given?
+    ar = ary.is_a?(Array) ? ary : ary.to_a
+    return enum_for(:select) unless block_given?
 
     filtered_ary = []
     x = 0
-    while x < ary.length
-      filtered_ary << ary[x] if yield(ary[x]) == true
+    while x < ar.length
+      filtered_ary << ar[x] if yield(ar[x]) == true
       x += 1
     end
+    return ary if filtered_ary.empty?
+
     filtered_ary
   end
 
@@ -216,7 +218,7 @@ module Enumerable
   def my_map(proc_arg = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
-    return enum_for unless block_given?
+    return enum_for(:map) unless block_given?
 
     arr = []
     i = 0
@@ -231,39 +233,52 @@ module Enumerable
     arr
   end
 
-  def my_inject(arg = nil, sym = nil)
+  def my_inject(arg = 0, sym = nil)
     ary = self
     ary = ary.is_a?(Array) ? ary : ary.to_a
 
     acc = ary[0]
-    if arg.nil? && sym.nil?
-      i = 1
-      while i < ary.length
-        acc = yield(acc, ary[i])
-        i += 1
-      end
-    elsif !arg.nil? && sym.nil?
-      if arg.is_a?(Integer)
-        acc = arg
-        i = 0
+    i = 1
+    if block_given?
+      if arg.nil?
         while i < ary.length
           acc = yield(acc, ary[i])
           i += 1
         end
-      elsif arg.is_a?(String) || arg.is_a?(Symbol)
-        acc = ary[0]
-        i = 1
-        while i < ary.length
-          acc = acc.send(arg, ary[i])
-          i += 1
+      else
+        if arg.is_a?(Numeric)
+          acc = arg
+          i = 0
+          while i < ary.length
+            acc = yield(acc, ary[i])
+            i += 1
+          end
+        else
+          NoMethodError.new
         end
       end
-    elsif !arg.nil? && !sym.nil?
-      acc = arg
-      i = 0
-      while i < ary.length
-        acc = acc.send(sym, ary[i])
-        i += 1
+    else
+      if arg && sym.nil?
+        if arg.is_a?(Numeric)
+          acc = arg
+          i = 0
+          while i < ary.length
+            acc = yield(acc, ary[i])
+            i += 1
+          end
+        elsif arg.is_a?(String) || arg.is_a?(Symbol)
+          while i < ary.length
+            acc = acc.send(arg, ary[i])
+            i += 1
+          end
+        end
+      elsif arg && sym
+        acc = arg
+        i = 0
+        while i < ary.length
+          acc = acc.send(sym, ary[i])
+          i += 1
+        end
       end
     end
     acc
