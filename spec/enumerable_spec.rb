@@ -28,23 +28,23 @@ describe 'Custom Enumerable Methods' do
 
     context 'Block Given:' do
       it 'when applied on an array' do
-        expect(array.my_each(&block_num)).to eql(array.each(&block_num))
+        expect(array.my_each(&block_num)).to match_array(array.each(&block_num))
       end
 
       it 'when applied on a range' do
-        expect(range.my_each(&block_num)).to eql(range.each(&block_num))
+        expect(range.my_each(&block_num)).to match_array(range.each(&block_num))
       end
 
       it 'when applied on an hash' do
-        expect(hash.my_each(&block)).to eql(hash.each(&block))
+        expect(hash.my_each(&block)).to match_array(hash.each(&block))
       end
 
       it 'when applied on a numbers array' do
-        expect(numbers.my_each(&block_num)).to eql(numbers.each(&block_num))
+        expect(numbers.my_each(&block_num)).to match_array(numbers.each(&block_num))
       end
 
       it 'when applied on a words array' do
-        expect(words.my_each(&block)).to eql(words.each(&block))
+        expect(words.my_each(&block)).to match_array(words.each(&block))
       end
     end
   end
@@ -100,19 +100,19 @@ describe 'Custom Enumerable Methods' do
 
     context 'Block Given:' do
       it 'when applied on an array' do
-        expect(array.my_select(&block_num)).to eql(array.select(&block_num))
+        expect(array.my_select(&block_num)).to match_array(array.select(&block_num))
       end
 
       it 'when applied on a range' do
-        expect(range.my_select(&block_num)).to eql(range.select(&block_num))
+        expect(range.my_select(&block_num)).to match_array(range.select(&block_num))
       end
 
       it 'when applied on an hash' do
-        expect(hash.my_select(&block)).to eql(hash.select(&block))
+        expect(hash.my_select(&block)).to match_array(hash.select(&block))
       end
 
       it 'when applied on a numbers array' do
-        expect(numbers.my_select(&block_num)).to eql(numbers.select(&block_num))
+        expect(numbers.my_select(&block_num)).to match_array(numbers.select(&block_num))
       end
     end
   end
@@ -148,6 +148,10 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an hash' do
         expect(hash.my_all?(&block)).to eql(hash.all?(&block))
       end
+
+      it 'when all the elements do not match, returns false' do
+        expect(array.my_all?(&block_num)).to be false
+      end
     end
 
     context 'Argument Given:' do
@@ -161,6 +165,10 @@ describe 'Custom Enumerable Methods' do
 
       it 'when a pattern is passed' do
         expect(array.my_all?(1)).to eql(array.all?(1))
+      end
+
+      it 'when all the elements do not match, returns false' do
+        expect(array.my_all?(2)).to be false
       end
     end
   end
@@ -196,6 +204,10 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an hash' do
         expect(hash.my_any?(&block)).to eql(hash.any?(&block))
       end
+
+      it 'when all the elements do not match, returns false' do
+        expect([10, 40, 30, 20].my_any?(&block_num)).to be false
+      end
     end
 
     context 'Argument Given:' do
@@ -209,6 +221,10 @@ describe 'Custom Enumerable Methods' do
 
       it 'when a pattern is passed' do
         expect(array.my_any?(1)).to eql(array.any?(1))
+      end
+
+      it 'when all the elements do not match, returns false' do
+        expect(array.my_any?('Hello')).to be false
       end
     end
   end
@@ -239,6 +255,10 @@ describe 'Custom Enumerable Methods' do
       it 'when applied on an hash' do
         expect(hash.my_none?(&block)).to eql(hash.none?(&block))
       end
+
+      it 'when all the elements do not match, returns false' do
+        expect([1, 2, 3, 10].my_none?(&block_num)).to be false
+      end
     end
 
     context 'Argument Given:' do
@@ -250,6 +270,10 @@ describe 'Custom Enumerable Methods' do
       end
       it 'when a pattern is passed' do
         expect(array.my_none?(1)).to eql(array.none?(1))
+      end
+
+      it 'when all the elements do not match, returns false' do
+        expect(array.my_none?(Numeric)).to be false
       end
     end
   end
